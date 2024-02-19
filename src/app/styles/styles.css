@@ -1,0 +1,98 @@
+/* Add this to your CSS file or style section */
+
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Main Container Styles */
+  div {
+    background-color: #000;
+    color: #ecf0f1;
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(148, 0, 211, 0.8);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Navigation Styles */
+  nav {
+    background-color: #000;
+    padding: 4px;
+    text-align: left;
+  }
+  
+  ul {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    list-style: none;
+  }
+  
+  /* Navigation Link Styles */
+  a {
+    text-decoration: none;
+    color: #ecf0f1;
+    margin-right: 6px;
+    padding: 10px;
+    font-weight: bold;
+  }
+  
+  /* Header Styles */
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #9400d3;
+  }
+  
+  /* Section Title Styles */
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 2px solid #34495e;
+    padding-bottom: 10px;
+    color: #9400d3;
+  }
+  
+  /* Button Styles */
+  button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #ecf0f1;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  /* Selected Bets Styles */
+  h2:last-child {
+    margin-top: 30px;
+    color: #9400d3;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  /* Add Animation Keyframes */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
