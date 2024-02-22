@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSpring} from 'react-spring';
-import Navbar from "../../../components/navbar";
+
 
 const OurStory = () => {
   const fadeIn = useSpring({
@@ -35,7 +35,6 @@ const OurStory = () => {
 
   return (
     <div style={{ ...containerStyle, ...fadeIn }}>
-      <Navbar/>
       <div style={storyContainerStyle}>
         <h1 style={headingStyle}>Welcome to ClutchCalls</h1>
         <p style={paragraphStyle}>

@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from "react";
-import Navbar from "../../../components/navbar";
 import Link from "next/link";
 
 const Parlays = () => {
@@ -89,7 +88,6 @@ const Parlays = () => {
 
   return (
     <div style={styles}>
-      <Navbar/>
       <h1 style={headingStyles}>PICKS</h1>
 
       <div>

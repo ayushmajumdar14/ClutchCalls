@@ -1,10 +1,8 @@
 import Link from "next/link";
-import Navbar from "../../../components/navbar";
 
 export default function LoginPage() {
     return(
         <div>
-            <Navbar/>
             <section className= "dark:bg-black flex justitfy-center items-center h-screen">
             <div className="w-80 items-center justify-center mx-auto">
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
