@@ -1,177 +1,138 @@
 'use client'
+import { useEffect, useState} from 'react';
+import axios from 'axios';
 
-import React, { useState } from "react";
-import Link from "next/link";
-
-const Parlays = () => {
-  const teams = [
-    "Toronto Raptors",
-    "Atlanta Hawks",
-    "Cleveland Cavaliers",
-    "Philadelphia 76ers",
-    "Miami Heat",
-    "New Orleans Pelicans",
-    "Washington Wizards",
-    "Oklahoma City Thunder",
-    "Los Angeles JV Team",
-    "Memphis Grizzlies",
-    "Phoenix Suns",
-    "Houston Rockets",
-    "Denver Nuggets",
-    "Portland Trail Blazers",
-    "Charlotte Hornets",
-    "Golden State Warriors",
-    "Milwaukee Bucks",
-    "Minnesota Timberwolves",
-    "San Antonio Spurs",
-    "Los Angeles Lakers",
-  ];
-
-  const todayGames = [
-    "Toronto Raptors vs. Atlanta Hawks, Today, 4:30 PM",
-    "Cleveland Cavaliers vs. Philadelphia 76ers, Today, 4:30 PM",
-    "Miami Heat vs. New Orleans Pelicans, Today, 5:00 PM",
-    "Washington Wizards vs. Oklahoma City Thunder, Today, 5:00 PM",
-    "Los Angeles JV Team vs. Memphis Grizzlies, Today, 5:00 PM",
-    "Phoenix Suns vs. Houston Rockets, Today, 5:00 PM",
-    "Denver Nuggets vs. Portland Trail Blazers, Today, 7:00 PM",
-    "Charlotte Hornets vs. Golden State Warriors, Today, 7:00 PM",
-    "Milwaukee Bucks vs. Minnesota Timberwolves, Today, 7:00 PM",
-    "San Antonio Spurs vs. Los Angeles Lakers, Today, 7:00 PM",
-  ];
-
-  const feb24Games = [
-    "Orlando Magic vs. Detroit Pistons, Saturday, February 24, 2024, 5:00 PM",
-    "Boston Celtics vs. New York Knicks, Saturday, February 24, 2024, 5:30 PM",
-    "Brooklyn Nets vs. Minnesota Timberwolves, Saturday, February 24, 2024, 6:00 PM",
-  ];
-
-  const [selectedBets, setSelectedBets] = useState([]);
-
-  const handleBetSelection = (team, game, betType) => {
-    const newBet = { team, game, betType };
-    setSelectedBets((prevBets) => [...prevBets, newBet]);
+function LiveGames() {
+  const [games, setGames] = useState([]);
+  const options= {
+      method: 'GET',
+      url: 'https://api-nba-v1.p.rapidapi.com/games',
+      params: {date: '2023-12-15'},
+      headers: {
+        'X-RapidAPI-Key': 'f5631ee397msh9956e6e5a37fac9p1f5c5fjsnd0b23edba198',
+        'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+      }
   };
 
-  const buttonStyle = {
-    margin: "0 10px",
-    padding: "10px 20px",
-    backgroundColor: "#3498db",
-    color: "#ecf0f1",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    boxShadow: "0 0 10px rgba(148, 0, 211, 0.5)",
-    transition: "box-shadow 0.3s ease-in-out",
-    fontFamily: 'Proxima Nova, sans-serif',
-  };
+  useEffect(() => {
+      const fetchgames = async() => {
+          try{
+              const response = await axios.request(options)
+              setGames(response.data.games)
+          }catch (error){
+              console.error(error);
+              
+          }
+      };
 
-  const styles = {
-    backgroundColor: "#000",
-    color: "#ecf0f1",
-    fontFamily: "Proxima Nova, sans-serif",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 0 20px rgba(148, 0, 211, 0.8)",
-    animation: "fadeIn 0.5s ease-in-out",
-    overflow: "hidden",
-  };
+      fetchgames();
+    
+  },[options]);
 
-  const headingStyles = {
-    textAlign: "center",
-    marginBottom: "30px",
-    fontSize: "36px",
-    fontWeight: "bold",
-    color: "#9400d3",
-    fontFamily: 'Proxima Nova, sans-serif',
-  };
-
-  return (
-    <div style={styles}>
-      <h1 style={headingStyles}>PICKS</h1>
-
+  return(
       <div>
-        <h2 style={{ fontSize: "24px", borderBottom: "2px solid #34495e", paddingBottom: "10px", fontWeight: "bold" }}>Today</h2>
-        {todayGames.map((game, index) => (
-          <div key={index} style={{ marginBottom: "20px" }}>
-            <h2 style={{ fontSize: "20px" }}>{game}</h2>
-            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-              <div>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "OverCalls")} style={buttonStyle}>
-                  Over Calls
-                </button>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "UnderCalls")} style={buttonStyle}>
-                  Under Calls
-                </button>
-              </div>
-              <div>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "OverCorrectCalls")} style={buttonStyle}>
-                  Over Correct Calls
-                </button>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "UnderCorrectCalls")} style={buttonStyle}>
-                  Under Correct Calls
-                </button>
-              </div>
-              <div>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "OverIncorrectCalls")} style={buttonStyle}>
-                  Over Incorrect Calls
-                </button>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "UnderIncorrectCalls")} style={buttonStyle}>
-                  Under Incorrect Calls
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+          <h1>
+              <ul>
+              {games && games.map((game, index)=>(
+               <li key={index}>
+                  <p>Live Games</p>
+                  <p>Date : {game.date}</p>
+                  <p>Teams: {game.teams}</p>
+                  <p>Location: {game.location}</p>
+               </li>
+              ))}
+              </ul>
+          </h1>
       </div>
-
-      <div>
-        <h2 style={{ fontSize: "24px", marginTop: "30px", fontWeight: "bold" }}>February 24, 2024</h2>
-        {feb24Games.map((game, index) => (
-          <div key={index} style={{ marginBottom: "20px" }}>
-            <h2 style={{ fontSize: "20px" }}>{game}</h2>
-            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-              <div>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "OverCalls")} style={buttonStyle}>
-                  Over Calls
-                </button>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "UnderCalls")} style={buttonStyle}>
-                  Under Calls
-                </button>
-              </div>
-              <div>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "OverCorrectCalls")} style={buttonStyle}>
-                  Over Correct Calls
-                </button>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "UnderCorrectCalls")} style={buttonStyle}>
-                  Under Correct Calls
-                </button>
-              </div>
-              <div>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "OverIncorrectCalls")} style={buttonStyle}>
-                  Over Incorrect Calls
-                </button>
-                <button onClick={() => handleBetSelection("HomeTeam", game, "UnderIncorrectCalls")} style={buttonStyle}>
-                  Under Incorrect Calls
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <h2 style={{ fontSize: "24px", marginTop: "30px", color: "#9400d3", fontWeight: "bold" }}>Selected Bets:</h2>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {selectedBets.map((bet, index) => (
-            <li key={index} style={{ marginBottom: "10px", fontSize: "18px" }}>
-              {`${bet.team} - ${bet.game} - ${bet.betType}`}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
   );
-};
+}
 
-export default Parlays;
+
+export default function Component() {
+  return (
+    <div className="flex flex-col bg-black min-h-screen">
+      <h1 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl">Today's Games</h1>
+      <div className="flex flex-col gap-2">
+       <p className="text-white font-bold">February 13, 2024</p>
+      </div>
+      <main className="flex-1 py-4 lg:py-8">
+        <div className="container grid gap-4 px-4 md:px-6">
+          <LiveGames/>
+          <div className="grid w-full grid-cols-6 items-stretch justify-center gap-4 md:grid-cols-6">
+            <div className="flex flex-col gap-1">
+              <h3 className="font-bold text-white ">BOS</h3>
+              <p className="text-sm text-white">Celtics</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h3 className="font-bold text-white">NYK</h3>
+              <p className="text-sm text-white">Knicks</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h3 className="font-bold text-white">LAL</h3>
+              <p className="text-sm text-white">Lakers</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h3 className="font-bold text-white">MIA</h3>
+              <p className="text-sm text-white">Heat</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h3 className="font-bold text-white">GSW</h3>
+              <p className="text-sm text-black">Warriors</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h3 className="font-bold text-white">POR</h3>
+              <p className="text-sm text-black">Trail Blazers</p>
+            </div>
+          </div>
+          <div className="grid w-full grid-cols-6 items-stretch justify-center gap-4 md:grid-cols-6">
+            <div className="flex flex-col gap-1 text-white">
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Over Correct Calls</button>
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Under Correct Calls</button>
+            </div>
+            <div className="flex flex-col gap-1 text-white">
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Over Incorrect Calls</button>
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Under Incorrect Calls</button>
+            </div>
+            <div className="flex flex-col gap-1 text-white">
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Over Correct Calls</button>
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Under Correct Calls</button>
+            </div>
+            <div className="flex flex-col gap-1 text-white">
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Over Incorrect Calls</button>
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Under Incorrect Calls</button>
+            </div>
+            <div className="flex flex-col gap-1 text-white">
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Over Correct Calls</button>
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Under Correct Calls</button>
+            </div>
+            <div className="flex flex-col gap-1 text-white">
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Over Incorrect Calls</button>
+              <button className='bg-purple-600 text-white rounded-md px-3 py-2' size="sm">Under Incorrect Calls</button>
+            </div>
+          </div>
+          <div className=" items-center space-y-4">
+            <h3 className="font-bold items-center text-white">SELECED BETS</h3>
+            <div className="grid w-full grid-cols-2 items-stretch justify-center gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div className="flex flex-col gap-1">
+                <h4 className="font-bold text-white">BOS @ NYK</h4>
+                <p className="text-sm text-white rounded-md px-3 py-2 bg-green-700">Over 200.5</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h4 className="font-bold text-white">LAL @ MIA</h4>
+                <p className="text-sm text-white rounded-md px-3 py-2 bg-rose-700">Under 210.5</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h4 className="font-bold text-white">GSW @ POR</h4>
+                <p className="text-sm text-white rounded-md px-3 py-2 bg-green-700">Over 220.5</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h4 className="font-bold text-white">NYK @ BOS</h4>
+                <p className="text-sm text-white rounded-md px-3 py-2 bg-rose-700">Under 190.5</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}

@@ -4,7 +4,7 @@ import React from "react";
 const TheTeam = () => {
   return (
     <div>
-      
+      Teams Page
     </div>
   );
 };
